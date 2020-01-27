@@ -18,11 +18,13 @@ class Process {
   bool operator<(Process const& a) const;  // TODO: See src/process.cpp
   void setPid(const int pid);
   long int getRam() const { return ram_; }
+  void setRam();
 
   // TODO: Declare any necessary private members
  private:
   int pid_;
   long int ram_ = 0, uptime_ = 0;
+  float cpu_;
 };
 
 #endif

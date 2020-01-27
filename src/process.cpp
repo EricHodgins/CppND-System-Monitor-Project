@@ -33,6 +33,8 @@ float Process::CpuUtilization() {
     float seconds = (float)upTime - ((float)startime / sysconf(_SC_CLK_TCK));
     float cpuUsage = (((float)totalTime / sysconf(_SC_CLK_TCK)) / seconds);
 
+    cpu_ = cpuUsage;
+
     return cpuUsage; 
 }
 
@@ -42,10 +44,10 @@ string Process::Command() { return LinuxParser::Command(pid_); }
 // TODO: Return this process's memory utilization
 string Process::Ram() { 
     string ramstring = LinuxParser::Ram(pid_); 
-    if (ramstring == "") {
-        ram_ = 0;
-    } else {
+    try {
         ram_ = std::stol(ramstring) / 1024;        
+    } catch(...) {
+        ram_ = 0;
     }
     return std::to_string(ram_);
 }
@@ -59,5 +61,15 @@ long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { 
-    return getRam() < a.getRam();
+    return ram_ > a.ram_;
+    //return cpu_ < a.cpu_;
+}
+
+void Process::setRam() {
+    string ramStr = LinuxParser::Ram(pid_);
+    try {
+        ram_ = std::stol(ramStr) / 1024;
+    } catch (...) {
+        ram_ = 0;
+    }
 }

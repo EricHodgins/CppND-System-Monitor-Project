@@ -21,10 +21,11 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
     vector<int> pids = LinuxParser::Pids();
-    processes_.clear();
+    processes_ = {};
     for (int p : pids) {
        Process process;
        process.setPid(p);
+       process.setRam();
        processes_.push_back(process);
     }
 
