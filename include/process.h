@@ -17,6 +17,7 @@ class Process {
   long int UpTime();                       // TODO: See src/process.cpp
   bool operator<(Process const& a) const;  // TODO: See src/process.cpp
   void setPid(const int pid);
+  long int getRam() const { return ram_; }
 
   // TODO: Declare any necessary private members
  private:
